@@ -4,9 +4,9 @@
 class LinkedList
   attr_accessor :head, :size
 
-  def initialize(node = nil)
-    @head = (node if node.instance_of?(Node))
-    @size = node.instance_of?(Node) ? 1 : 0
+  def initialize(value = nil)
+    @head = value.nil? ? nil : Node.new(value)
+    @size = head.instance_of?(Node) ? 1 : 0
   end
 
   def append(value)
