@@ -119,8 +119,60 @@ class HashMap
   end
 end
 
+class HashSet < HashMap
+  def keys
+    entries
+  end
 
+  def get(key)
+    index = hash(key)
+    entry = @buckets[index]
+    entry&.find { |e| e == key }
+  end
 
+  def set(key)
+    index = hash(key)
+    set_at_index(index, key)
+  end
+
+  private
+
+  def grow_buckets
+    all_entries = keys
+    @size *= 2
+    clear
+    all_entries.each { |e| set(e) }
+  end
+
+  def place_key_value(arr, key)
+    idx = nil
+    arr.each_with_index do |curr_key, index|
+      if curr_key == key
+        idx = index
+        break
+      end
+    end
+    if idx.nil?
+      arr << [key, value]
+    else
+      arr[idx] = value
+    end
+  end
+
+  def set_at_index(index, key)
+    raise IndexError if index.negative? || index >= @size
+
+    @length += 1
+    check_load_factor
+    return unless @buckets[index].nil?
+
+    @buckets[index] = [key]
+    edef test(arr)
+    arr[2] = [2, 3]
+    endlse
+    place_key_value(@buckets[index], key)
+  end
+end
 
 hs = HashSet.new
 hs.set('pepe')
